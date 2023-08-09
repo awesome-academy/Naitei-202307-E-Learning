@@ -1,80 +1,63 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-</head>
-<body>
-    <div id="app">
-        <nav class="relative flex flex-wrap items-center content-between py-3 px-4  text-black bg-white shadow-sm">
-            <div class="container mx-auto sm:px-4">
-                <a class="inline-block pt-1 pb-1 mr-4 text-lg whitespace-no-wrap" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="py-1 px-2 text-md leading-normal bg-transparent border border-transparent rounded" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="px-5 py-1 border border-gray-600 rounded"></span>
-                </button>
-
-                <div class="hidden flex-grow items-center" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="flex flex-wrap list-reset pl-0 mb-0 mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="flex flex-wrap list-reset pl-0 mb-0 ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="">
-                                <a class="inline-block py-2 px-4 no-underline" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="">
-                                    <a class="inline-block py-2 px-4 no-underline" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <title>{{ env('APP_NAME') }}</title>
+        <script src="{{ asset('js/app.js') }}" defer></script>
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        
+    </head>
+    <body>
+        <div id="app">
+            <div class="flex-center full-height">
+                @if (Route::has('login'))
+                    <div class="top-right links w-full">
+                        @auth
+                            <header class="header bg-white shadow">
+                                <nav class="nav max-w-7xl mx-auto px-4 py-4 flex items-center justify-between ">
+                                    <a href="/" class="nav_logo text-black font-semibold text-xl mr-60">{{ env('APP_NAME') }}</a>
+                                    <div class="relative ml-16">
+                                        <a hclass="button ml-12 px-8 py-4 text-xl bg-transparent border-2 text-black font-semibold
+                                        cursor-pointer hover:bg-blue-400">
+                                            <div class="flex cursor-pointer" id="drop-down-btn" >
+                                                <img class=" mr-2 w-6 h-6" src="{{Auth::user()->avatar}}" alt="avatar">    
+                                                {{Auth::user()->name}}
+                                                <i class="ml-2 text-center mt-1 justify-center fa-solid fa-caret-down"></i>
+                                            </div>
+                                            
+                                        </a>
+                                        <div id="drop-down" class="absolute mt-4 hidden bg-white border border-gray-300 rounded shadow-md">
+                                            <a href="/profile" class="block px-10 py-2 text-gray-800 hover:bg-gray-200">{{ __('Profile') }}</a>
+                                            <a class="dropdown-item block px-10 py-2 text-gray-800 hover:bg-gray-200" href="{{route('logout')}}"
+                                        onclick="event.preventDefault();
+                                                        document.getElementById('logout-form').submit();">
+                                            {{ __('Logout') }}
+                                            </a>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                                @csrf
+                                            </form>
+                                        </div>
+                                    </div>
+                                </nav>
+                            </header>
                         @else
-                            <li class=" relative">
-                                <a id="navbarDropdown" class="inline-block py-2 px-4 no-underline  inline-block w-0 h-0 ml-1 align border-b-0 border-t-1 border-r-1 border-l-1" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div class=" absolute left-0 z-50 float-left hidden list-reset	 py-2 mt-1 text-base bg-white border border-gray-300 rounded dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="block w-full py-1 px-6 font-normal text-gray-900 whitespace-no-wrap border-0" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                            <header class="header bg-white shadow">
+                                <nav class="nav max-w-7xl mx-auto px-4 py-2 flex items-center justify-between">
+                                    <a href="/" class="nav_logo text-black font-semibold text-xl">{{ env('APP_NAME') }}</a>
+                                    <a href="{{ route('login') }}" class="button  ml-12 px-8 py-2 text-xl bg-transparent  text-black font-semibold
+                                    rounded-2xl cursor-pointe hover:text-green-300">
+                                        Login
                                     </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <main class="py-4">
-            @yield('content')
-        </main>
-    </div>
-</body>
+                                </nav>
+                            </header>
+                        @endauth
+                    </div>
+                @endif
+            <main class="py-4">
+                @yield('content')
+            </main>
+        </div>
+    </body>
 </html>
