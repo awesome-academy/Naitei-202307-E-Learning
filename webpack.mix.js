@@ -21,4 +21,19 @@ mix.js('resources/js/app.js', 'public/js/app.js')
     ])
     .postCss("resources/css/main.css", "public/css", [
         require("tailwindcss"),
-    ]);
+    ])
+
+mix.webpackConfig({
+    module: {
+        rules: [{
+            test: /\.js$/,
+            exclude: /node_modules\/(?!alpinejs|vue|toastr\/|other-package\/).*/,
+            use: {
+                loader: 'babel-loader',
+                options: {
+                    presets: ['@babel/preset-env'],
+                },
+            },
+        }],
+    },
+});

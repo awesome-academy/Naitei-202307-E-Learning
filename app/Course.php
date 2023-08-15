@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Course extends Model
 {
+    use SoftDeletes;
+    
     protected $guarded = [];
 
     public function categories()
@@ -25,6 +28,6 @@ class Course extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'teacher_id');
     }
 }

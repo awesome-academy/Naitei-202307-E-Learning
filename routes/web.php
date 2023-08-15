@@ -15,12 +15,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('courses.index');
-});
+Route::get('/', 'HomeController@index')->name('home');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
 Route::get('language/{lang}', [LanguageController::class, 'changeLanguage'])->name('locale');
+
+Route::middleware('check.teacher')->group(function () {
+    Route::resource('/courses', 'CourseController')->only(['create', 'store', 'destroy']);
+});
+
+Route::middleware('check.author')->group(function () {
+    Route::resource('/courses', 'CourseController')->only(['edit', 'update']);
+});
+
+Route::resource('/courses', 'CourseController')->only('index');
+
+Route::get('/courses/{course}', 'CourseController@show')->name('courses.show');
+
+Route::get('content/{type}/{fileName}', 'S3UploadController@showContent')->name('content.show');

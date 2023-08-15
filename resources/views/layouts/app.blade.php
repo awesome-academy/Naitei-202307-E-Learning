@@ -10,6 +10,7 @@
         <script src="{{ asset('js/localization.js') }}" defer></script>
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('css/font.css') }}">
+        <link href="{{ asset('css/library.css') }}" rel="stylesheet">
 
     </head>
 
@@ -17,7 +18,7 @@
         <div id="app">
             <div class="flex-center full-height">
                 @if (Route::has('login'))
-                    <div class="top-right links w-full">
+                    <div class="top-right links w-full fixed">
                         <header class="header bg-white shadow">
                             <nav class="mx-auto flex max-w-full items-center justify-between px-10 py-4">
                                 <a href="/" class="nav_logo flex items-center text-xl font-semibold text-black">
@@ -95,7 +96,7 @@
                         </header>
                     </div>
                 @endif
-                <main class="bg-emerald-300 py-4">
+                <main class="bg-emerald-300 pt-16">
                     @yield('content')
                 </main>
             </div>

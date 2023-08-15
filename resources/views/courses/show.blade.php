@@ -1,79 +1,76 @@
 @extends('layouts.app')
+<link href="{{ asset('css/font.css') }}" rel="stylesheet">
+
 @section('content')
     <div class="mb-10 flex h-auto w-full p-5">
+
         <div class="ml-20 flex flex-1 p-10">
-            <div>
-                <p class="text-2xl font-semibold">{{ __('ReactJS') }}</p>
+            <div class="w-full">
+                <div class="flex justify-between">
+                    <p class="text-2xl font-semibold">{{ $course->name }}</p>
+
+                    @if (isAuthor($course->teacher_id))
+                        @component('components.dropdown')
+                            <li>
+                                <a href="{{ route('courses.edit', ['course' => $course->id]) }}"
+                                    class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+                                    {{ __('Edit') }}
+                                </a>
+                            </li>
+                            <li>
+                                <form class="mb-0" action="{{ route('courses.destroy', $course->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button class="block w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100"
+                                        id="course-delete-button">
+                                        {{ __('Delete') }}
+                                    </button>
+                                </form>
+                            </li>
+                        @endcomponent
+                    @endif
+                </div>
+
                 <p class="mb-10 mt-5 text-lg">
-                    {{ __('ReactJS is a JavaScript library for building user interfaces. It is maintained
-                    by
-                    Facebook and a community of individual developers and companies.') }}
+                    {{ $course->description }}
                 </p>
 
-                <span class="text-2xl font-semibold">{{ __('Course Content') }}</span>
-                <p>{{ __('4 Lessons • Duration 03 hours 25 minutes') }}</p>
-                <div>
-                    <ul class="ml-5 mt-10">
-                        <a href="">
-                            <li class="hover:bg-green-200 flex cursor-pointer items-center justify-between border-b-2 p-2 text-center">
-                                <div class="flex items-center">
-                                    <i class="fa-solid fa-circle-play mr-2 text-green-500"></i>
-                                    <p class="mr-2">{{ __('Lesson 1: ') }}</p>
-                                    <p>{{ __('Introduction') }}</p>
-                                </div>
-                                <p>{{ __('10:35') }}</p>
-                            </li>
-                        </a>
+                <div class="flex justify-between">
+                    <span class="text-2xl font-semibold">{{ __('Course Content') }}</span>
+                    <a class="text-green-500 hover:text-green-800" href="">
+                        <i class="fa-solid fa-plus"></i>
+                        {{ __('Add Lesson') }}
+                    </a>
 
-                        <a href="">
-                            <li class="flex cursor-pointer items-center justify-between border-b-2 p-2 text-center">
-                                <div class="flex items-center">
-                                    <i class="fa-solid fa-circle-play mr-2 text-green-500"></i>
-                                    <p class="mr-2">{{ __('Lesson 2: ') }}</p>
-                                    <p>{{ __('Creating and nesting components') }}
-                                    </p>
-                                </div>
-                                <p>{{ __('9:20') }}</p>
-                            </li>
-                        </a>
+                </div>
 
-                        <a href="">
-                            <li class="flex cursor-pointer items-center justify-between border-b-2 p-2 text-center">
+                <p>{{ $course->lessons->count() . ' lessons' }}</p>
+                <div class="w-full">
+                    <ul class="mt-10">
+                        @foreach ($course->lessons as $index => $lesson)
+                            <li class="flex items-center justify-between border-b-2 p-2 text-center">
                                 <div class="flex items-center">
                                     <i class="fa-solid fa-circle-play mr-2 text-green-500"></i>
-                                    <p class="mr-2">{{ __('Lesson 3: ') }}</p>
-                                    <p>{{ __('Writing markup with JSX') }}
-                                    </p>
+                                    <p class="mr-2">{{ __('Lesson ') . ($index + 1) . ': ' }}</p>
+                                    <p>{{ $lesson->title }}</p>
                                 </div>
-                                <p>{{ __('9:20') }}</p>
+                                <p>{{ __('11:20') }}</p>
                             </li>
-                        </a>
-
-                        <a href="">
-                            <li class="flex cursor-pointer items-center justify-between border-b-2 p-2 text-center">
-                                <div class="flex items-center">
-                                    <i class="fa-solid fa-circle-play mr-2 text-green-500"></i>
-                                    <p class="mr-2">{{ __('Lesson 4: ') }}</p>
-                                    <p>{{ __('Adding styles') }}
-                                    </p>
-                                </div>
-                                <p>{{ __('9:20') }}</p>
-                            </li>
-                        </a>
+                        @endforeach
                     </ul>
                 </div>
             </div>
 
 
         </div>
-        <div class="flex flex-1 p-10">
-            <div>
-                <img class="h-2/3 w-full rounded-3xl object-cover" src="{{ asset('images/reactjs.jpg') }}" alt="">
-                <div class="w-full text-center">
-                    <button
-                        class="mt-10 w-1/3 rounded-3xl bg-gradient-to-r from-green-400 to-blue-400 px-4 py-3 text-center font-semibold text-white hover:from-pink-500 hover:to-yellow-500">{{ __('Enroll') }}</button>
-                </div>
-            </div>
+        <div class="flex flex-1 flex-col p-10">
+            <img class="h-2/3 w-full rounded-3xl object-cover"
+                src="{{ route('content.show', ['type' => 'images', 'fileName' => $course->image]) }}" alt="">
+            <a href=""
+                class="mx-auto mt-5 w-6/12 rounded-2xl bg-gradient-to-r from-green-400 to-blue-400 px-4 py-2 text-center font-bold text-white hover:from-green-300 hover:to-blue-300">
+                {{ __('Enroll') }}
+            </a>
         </div>
     </div>
 @endsection
