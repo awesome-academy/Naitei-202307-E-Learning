@@ -16,13 +16,15 @@ class CheckTeacher
     public function handle($request, Closure $next)
     {
         if (!(auth()->check())) {
-            abort(401, __('Unauthorized'));
+            return redirect()->route('courses.index')
+                ->with('error', __('Unauthorized'));
         }
 
         $role = auth()->user()->role;
         
         if ($role !== 'teacher' && $role !== 'admin') {
-            abort(403, __('Access denied'));
+            return redirect()->route('courses.index')
+                ->with('error', __('Access denied'));
         }
         
         return $next($request);

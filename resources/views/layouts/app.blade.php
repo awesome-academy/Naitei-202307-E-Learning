@@ -99,6 +99,22 @@
                 <main class="bg-emerald-300 pt-16">
                     @yield('content')
                 </main>
+
+                @if (session()->has('success'))
+                    <script>
+                        window.addEventListener('load', function() {
+                            toastr.success('{{ session('success') }}');
+                        });
+                    </script>
+                @endif
+
+                @if (session()->has('error'))
+                    <script>
+                        window.addEventListener('load', function() {
+                            toastr.error('{{ session('error') }}');
+                        });
+                    </script>
+                @endif
             </div>
     </body>
 </html>
