@@ -1,5 +1,4 @@
 @extends('layouts.app')
-<link href="{{ asset('css/font.css') }}" rel="stylesheet">
 @section('content')
     <div class="mb-10 flex h-auto w-full p-5">
         <div class="ml-20 flex flex-1 p-10">
@@ -16,7 +15,7 @@
                 <div>
                     <ul class="ml-5 mt-10">
                         <a href="">
-                            <li class="flex cursor-pointer items-center justify-between border-b-2 p-2 text-center">
+                            <li class="hover:bg-green-200 flex cursor-pointer items-center justify-between border-b-2 p-2 text-center">
                                 <div class="flex items-center">
                                     <i class="fa-solid fa-circle-play mr-2 text-green-500"></i>
                                     <p class="mr-2">{{ __('Lesson 1: ') }}</p>
