@@ -47,7 +47,8 @@ class CourseController extends Controller
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filePath = S3UploadController::uploadFileToS3($file, 'image');
+            $uploadResult = S3UploadController::uploadFileToS3($file, 'image');
+            $filePath = $uploadResult['filename'];
         }
 
         $userId = auth()->user()->id;
@@ -59,7 +60,8 @@ class CourseController extends Controller
             'teacher_id' => $userId,
         ]);
 
-        return redirect()->route('courses.index')->with('success', __('Course created successfully'));
+        return redirect()->route('courses.index')
+            ->with('success', __('Course created successfully'));
     }
 
     /**
@@ -73,7 +75,7 @@ class CourseController extends Controller
         $course = Course::with([
             'user',
             'lessons' => function ($query) {
-                $query->select('course_id', 'title', 'description', 'duration');
+                $query->select('id', 'course_id', 'title', 'description', 'duration');
             }
         ])->findOrFail($id);
 
@@ -108,7 +110,8 @@ class CourseController extends Controller
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filePath = S3UploadController::uploadFileToS3($file, 'image');
+            $uploadResult = S3UploadController::uploadFileToS3($file, 'image');
+            $filePath = $uploadResult['filename'];
 
             $course->update([
                 'name' => $validated['name'],
@@ -139,6 +142,7 @@ class CourseController extends Controller
 
         $course->delete();
 
-        return redirect()->route('courses.index')->with('success', __('Course deleted successfully'));
+        return redirect()->route('courses.index')
+            ->with('success', __('Course deleted successfully'));
     }
 }
