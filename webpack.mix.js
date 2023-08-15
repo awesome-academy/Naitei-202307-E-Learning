@@ -22,6 +22,9 @@ mix.js('resources/js/app.js', 'public/js/app.js')
     .postCss("resources/css/main.css", "public/css", [
         require("tailwindcss"),
     ])
+    .postCss("resources/css/landingpage.css", "public/css", [
+        require("tailwindcss"),
+    ]);
 
 mix.webpackConfig({
     module: {

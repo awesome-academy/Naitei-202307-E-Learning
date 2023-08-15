@@ -1,0 +1,12 @@
+
+.student {
+    background-image: url('../../public/images/student.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.teacher {
+    background-image: url('../../public/images/teacher.jpg');
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
