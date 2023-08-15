@@ -15,9 +15,9 @@ function myFunction() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    const deleteButton = document.getElementById('course-delete-button');
+    const deleteButtons = document.querySelectorAll('.delete-button');
 
-    if (deleteButton) {
+    deleteButtons.forEach(deleteButton => {
         deleteButton.addEventListener('click', function (event) {
             event.preventDefault();
 
@@ -33,9 +33,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    form.submit(); // Submit the form after confirmation
+                    form.submit();
                 }
             });
         });
-    }
+    });
 });
