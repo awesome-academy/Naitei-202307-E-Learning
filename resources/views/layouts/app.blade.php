@@ -16,13 +16,13 @@
 
     <body>
         <div id="app">
-            <div class="flex-center full-height">
+            <div class="flex-center full-height min-h-screen">
                 @if (Route::has('login'))
                     <div class="top-right links w-full fixed">
                         <header class="header bg-white shadow">
                             <nav class="mx-auto flex max-w-full items-center justify-between px-10 py-4">
                                 <a href="/" class="nav_logo flex items-center text-xl font-semibold text-black">
-                                    <img class="cover-fill mr-5 h-14 w-14 rounded-lg" src="{{ asset('images/logo.png') }}"
+                                    <img class="cover-fill mr-5 h-10 w-10 rounded-lg" src="{{ asset('images/logo.png') }}"
                                         alt="">
                                     <p>{{ env('APP_NAME') }}</p>
                                 </a>
