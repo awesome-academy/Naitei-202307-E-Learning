@@ -27,6 +27,7 @@ Route::middleware('check.teacher')->group(function () {
 
 Route::middleware('check.author')->group(function () {
     Route::resource('/courses', 'CourseController')->only(['edit', 'update']);
+    Route::resource('/lessons', 'LessonController')->shallow();
 });
 
 Route::resource('/courses', 'CourseController')->only('index');

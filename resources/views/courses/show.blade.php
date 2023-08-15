@@ -22,8 +22,7 @@
                                     @csrf
                                     @method('DELETE')
 
-                                    <button class="block w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100"
-                                        id="course-delete-button">
+                                    <button class="block w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100 delete-button">
                                         {{ __('Delete') }}
                                     </button>
                                 </form>
@@ -38,16 +37,19 @@
 
                 <div class="flex justify-between">
                     <span class="text-2xl font-semibold">{{ __('Course Content') }}</span>
-                    <a class="text-green-500 hover:text-green-800" href="">
-                        <i class="fa-solid fa-plus"></i>
-                        {{ __('Add Lesson') }}
-                    </a>
 
+                    @if (isAuthor($course->teacher_id))
+                        <a class="text-green-500 hover:text-green-800"
+                            href="{{ route('lessons.create', ['course' => $course->id]) }}">
+                            <i class="fa-solid fa-plus"></i>
+                            {{ __('Add Lesson') }}
+                        </a>
+                    @endif
                 </div>
 
                 <p>{{ $course->lessons->count() . ' lessons' }}</p>
-                <div class="w-full">
-                    <ul class="mt-10">
+                <div class="mt-10 w-full h-60 overflow-y-auto">
+                    <ul>
                         @foreach ($course->lessons as $index => $lesson)
                             <li class="flex items-center justify-between border-b-2 p-2 text-center">
                                 <div class="flex items-center">
@@ -55,7 +57,31 @@
                                     <p class="mr-2">{{ __('Lesson ') . ($index + 1) . ': ' }}</p>
                                     <p>{{ $lesson->title }}</p>
                                 </div>
-                                <p>{{ __('11:20') }}</p>
+                                <div class="flex items-center">
+                                    <p>{{ formatSeconds($lesson->duration) }}</p>
+
+                                    @if (isAuthor($course->teacher_id))
+                                        @component('components.dropdown')
+                                        <li>
+                                            <a href="{{ route('lessons.edit', ['course' => $course->id, 'lesson' => $lesson->id]) }}"
+                                                class="block px-4 py-2 text-gray-800 hover:bg-gray-100 text-left">
+                                                {{ __('Edit') }}
+                                            </a>                                             
+                                        </li>
+                                        <li>
+                                            <form class="mb-0" action="{{ route('lessons.destroy', ['course' => $course->id, 'lesson' => $lesson->id]) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+    
+                                                <button class="block w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100 delete-button">
+                                                    {{ __('Delete') }}
+                                                </button>
+                                            </form>
+                                        </li>
+                                        @endcomponent
+                                    @endif
+                                </div>
+                                
                             </li>
                         @endforeach
                     </ul>

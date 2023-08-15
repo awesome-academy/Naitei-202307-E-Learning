@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Course;
+use App\Lesson;
 use Closure;
 
 class CheckAuthor
@@ -16,21 +17,48 @@ class CheckAuthor
      */
     public function handle($request, Closure $next)
     {
-        if (!(auth()->check())) {
-            abort(401, __('Unauthorized'));
+        if (!auth()->check()) {
+            return redirect()->route('courses.index')
+                ->with('error', __('Unauthorized'));
         }
 
         $courseId = $request->route('course');
-        $course = Course::find($courseId);
+        $lessonId = $request->route('lesson');
 
-        if (!$course) {
-            abort(404, __('Course not found'));
+        if (!$courseId) {
+            $courseId = $request->query('course');
+        }
+        
+        if ($lessonId) {
+            $lesson = Lesson::find($lessonId);
+
+            if (!$lesson) {
+                return redirect()->route('courses.index')
+                    ->with('error', __('Lesson not found'));
+            }
+
+            if ($lesson->course->teacher_id === auth()->user()->id) {
+                return $next($request);
+            }
+        } elseif ($courseId) {
+            $course = Course::find($courseId);
+
+
+
+            if (!$course) {
+                return redirect()->route('courses.index')
+                    ->with('error', __('Course not found'));
+            }
+
+            if ($course->teacher_id === auth()->user()->id) {
+                return $next($request);
+            }
         }
 
-        if ($course->teacher_id === auth()->user()->id) {
-            return $next($request);
-        }
+
 
         abort(403, __('Access denied'));
+        return redirect()->route('courses.index')
+            ->with('error', __('Access denied'));
     }
 }
