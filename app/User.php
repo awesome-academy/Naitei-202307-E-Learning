@@ -17,6 +17,7 @@ class User extends Authenticatable
      */
     protected $guarded = [
         'role',
+        'status',
     ];
 
     /**

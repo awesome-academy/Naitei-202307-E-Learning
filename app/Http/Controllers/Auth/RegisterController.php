@@ -72,8 +72,9 @@ class RegisterController extends Controller
                 ->withErrors($data)
                 ->withInput();
         }
-        
-        return User::create([
+
+        $user = new User;
+        $user->fill([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
@@ -81,5 +82,9 @@ class RegisterController extends Controller
             'gender' => $data['gender'],
             'dob' => $data['dob'],
         ]);
+        $user->status = 'active';
+        $user->save();
+
+        return $user;
     }
 }

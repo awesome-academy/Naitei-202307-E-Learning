@@ -19,6 +19,9 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Auth::routes();
 
+Route::get('teacher/register', 'RegisterTeacherController@create')->name('teacher.create');
+Route::post('teacher/register', 'RegisterTeacherController@store')->name('teacher.store');
+
 Route::get('language/{lang}', [LanguageController::class, 'changeLanguage'])->name('locale');
 
 Route::middleware('check.teacher')->group(function () {
