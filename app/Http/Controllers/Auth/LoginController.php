@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -36,5 +40,20 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    protected function credentials(Request $request)
+    {
+        $user = User::where('email', request()->email)->first();
+
+        if ($user && $user->status !== config('constant.status.active')) {
+            throw ValidationException::withMessages([$this->username() => __('The account is inactive')]);
+        }
+
+        return [
+            'email' => request()->email,
+            'password' => request()->password,
+            'status' => config('constant.status.active')
+        ];
     }
 }

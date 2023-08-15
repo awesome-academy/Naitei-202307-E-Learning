@@ -46,8 +46,8 @@ class RegisterTeacherController extends Controller
             'gender' => $validated['gender'],
             'dob' => $validated['dob'],
         ]);
-        $teacher->status = 'pending';
-        $teacher->role = 'teacher';
+        $teacher->status = config('constant.status.pending');
+        $teacher->role = config('constant.role.teacher');
         $teacher->save();
 
         return redirect()->route('login');
