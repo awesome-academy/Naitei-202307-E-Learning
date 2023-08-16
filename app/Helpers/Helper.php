@@ -24,3 +24,12 @@ function hasEnrolled($userId, $courseId)
         ->where('course_id', $courseId)
         ->exists();
 }
+
+function getMediaUrl($type, $fileName)
+{
+    $filePath = $type === 'videos' ? 'videos/' : 'images/';
+    $cloudFrontUrl = env('CLOUDFRONT_URL');
+    $url = $cloudFrontUrl . '/' . $filePath . $fileName;
+
+    return $url;
+}

@@ -41,15 +41,4 @@ class S3UploadController extends Controller
             ];
         }
     }
-
-    public function showContent($type, $fileName)
-    {
-        $fileContents = Storage::disk('s3')->get($type . '/' . $fileName);
-
-        $contentType = Storage::disk('s3')->mimeType($type . '/' . $fileName);
-
-        return new Response($fileContents, 200, [
-            'Content-Type' => $contentType,
-        ]);
-    }
 }

@@ -39,8 +39,6 @@ Route::resource('/courses', 'CourseController')->only('index');
 
 Route::get('/courses/{course}', 'CourseController@show')->name('courses.show');
 
-Route::get('content/{type}/{fileName}', 'S3UploadController@showContent')->name('content.show');
-
 Route::middleware('check.enrolled')->group(function () {
     Route::get('/learning/{lesson}', 'LearningController@show')->name('learning.show');
 });

@@ -17,7 +17,7 @@
         @foreach ($courses as $course)
             <div class="card" href="">
                 <a href="{{ route('courses.show', ['course' => $course->id]) }}">
-                    <img src="{{ route('content.show', ['type' => 'images', 'fileName' => $course->image]) }}"
+                    <img src="{{ getMediaUrl('images' ,$course->image) }}"
                         alt="" class="card-image" />
                 </a>
                 <div class="card-content">
