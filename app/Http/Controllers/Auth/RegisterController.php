@@ -82,7 +82,7 @@ class RegisterController extends Controller
             'gender' => $data['gender'],
             'dob' => $data['dob'],
         ]);
-        $user->status = 'active';
+        $user->status = config('constant.status.active');
         $user->save();
 
         return $user;
