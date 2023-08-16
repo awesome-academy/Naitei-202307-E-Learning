@@ -18,7 +18,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $perPage = config('constants.pagination.per_page');
+        $perPage = config('constant.pagination.per_page');
 
         $courses = Course::with('user')->paginate($perPage);
 

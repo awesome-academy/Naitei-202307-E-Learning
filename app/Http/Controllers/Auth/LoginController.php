@@ -46,8 +46,16 @@ class LoginController extends Controller
     {
         $user = User::where('email', request()->email)->first();
 
-        if ($user && $user->status !== config('constant.status.active')) {
+        if ($user && $user->status === config('constant.status.pending')) {
+            throw ValidationException::withMessages([$this->username() => __('The account is pending')]);
+        }
+
+        if ($user && $user->status === config('constant.status.inactive')) {
             throw ValidationException::withMessages([$this->username() => __('The account is inactive')]);
+        }
+
+        if ($user && $user->status === config('constant.status.reject')) {
+            throw ValidationException::withMessages([$this->username() => __('The account is rejected')]);
         }
 
         return [

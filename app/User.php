@@ -65,6 +65,11 @@ class User extends Authenticatable
 
     public function isTeacher()
     {
-        return $this->role === 'teacher' || $this->role === 'admin';
+        return $this->role === config('constant.role.teacher') || $this->role === config('constant.role.admin');
+    }
+
+    public function isPending()
+    {
+        return $this->status === config('constant.status.pending');
     }
 }
