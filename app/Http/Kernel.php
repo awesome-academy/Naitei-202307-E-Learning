@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'lang' => \App\Http\Middleware\Localization::class,
         'check.teacher' => \App\Http\Middleware\CheckTeacher::class,
         'check.author' => \App\Http\Middleware\CheckAuthor::class,
+        'check.enrolled' => \App\Http\Middleware\CheckEnrolled::class,
     ];
 }

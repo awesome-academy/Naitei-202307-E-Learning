@@ -93,10 +93,22 @@
         <div class="flex flex-1 flex-col p-10">
             <img class="h-2/3 w-full rounded-3xl object-cover"
                 src="{{ route('content.show', ['type' => 'images', 'fileName' => $course->image]) }}" alt="">
-            <a href=""
-                class="mx-auto mt-5 w-6/12 rounded-2xl bg-gradient-to-r from-green-400 to-blue-400 px-4 py-2 text-center font-bold text-white hover:from-green-300 hover:to-blue-300">
-                {{ __('Enroll') }}
-            </a>
+
+            @if (hasEnrolled(auth()->id(), $course->id))
+                <a href="{{ route('learning.show', ['lesson' => $course->lessons->first()->id]) }}"
+                    class="text-center mx-auto mt-5 w-6/12 rounded-2xl bg-gradient-to-r from-green-400 to-blue-400 px-4 py-2 font-bold text-white hover:from-green-300 hover:to-blue-300">
+                    {{ __('Continue') }}
+                </a>
+            @else
+                <form action="{{ route('enroll', ['course_id' => $course->id]) }}" method="POST" class="text-center">
+                    @csrf
+                        <button type="submit"
+                            class="mx-auto mt-5 w-6/12 rounded-2xl bg-gradient-to-r from-green-400 to-blue-400 px-4 py-2 font-bold text-white hover:from-green-300 hover:to-blue-300">
+                            {{ __('Enroll') }}
+                        </button>
+                </form>
+            @endif
+
         </div>
     </div>
 @endsection
