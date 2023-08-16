@@ -17,6 +17,7 @@ mix.js('resources/js/app.js', 'public/js/app.js')
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/font.scss', 'public/css')
     .sass('resources/sass/learning.scss', 'public/css')
+    .sass('resources/sass/library.scss', 'public/css')
     .postCss("resources/css/app.css", "public/css", [
         require("tailwindcss"),
     ])

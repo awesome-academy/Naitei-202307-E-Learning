@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -39,4 +40,10 @@ Route::get('/courses/{course}', 'CourseController@show')->name('courses.show');
 
 Route::get('content/{type}/{fileName}', 'S3UploadController@showContent')->name('content.show');
 
-Route::get('/learning/{course}', 'LearningController@show')->name('learning.show');
+Route::middleware('check.enrolled')->group(function () {
+    Route::get('/learning/{lesson}', 'LearningController@show')->name('learning.show');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('enroll', [EnrollmentController::class, 'enrollCourse'])->name('enroll');
+});

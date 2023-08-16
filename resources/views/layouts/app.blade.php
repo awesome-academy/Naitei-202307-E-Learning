@@ -26,7 +26,7 @@
                                         alt="">
                                     <p>{{ env('APP_NAME') }}</p>
                                 </a>
-                                <a href="{{ route('home') }}">
+                                <a href="{{ route('courses.index') }}">
                                     <p class="text-lg">{{ __('Course') }}</p>
                                 </a>
                                 <div class="search-input flex items-center">

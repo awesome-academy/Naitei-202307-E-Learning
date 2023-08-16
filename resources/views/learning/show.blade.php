@@ -55,28 +55,28 @@
             <main class="learning-content bg-emerald-300">
                 <div class="flex h-full">
                     <div class="flex w-1/4 flex-col divide-y divide-dashed overflow-y-auto bg-gray-100">
-                        @for ($i = 0; $i < 12; $i++)
+                        @foreach ($course->lessons as $index => $lesson)
                             <div
                                 class="flex cursor-pointer items-center justify-between bg-white px-5 py-4 transition-colors hover:bg-gray-100 active:bg-green-200">
-                                <div>
-                                    <h4 class='text-base font-semibold'>{{ __('Lesson 1: Introduction') }}</h4>
+                                <a href="{{ route('learning.show', ['lesson' => $lesson->id]) }}">
+                                    <h4 class='text-base font-semibold'>{{ __('Lesson ') . ($index + 1) . (': ') . ($lesson->title) }}</h4>
                                     <p class="text">
                                         <i class="fa-solid fa-circle-play text-green-400"></i>
-                                        {{ __('12:00') }}
+                                        {{ formatSeconds($lesson->duration) }}
                                     </p>
-                                </div>
+                                </a>
                                 <div class="">
                                     <i class="fa-solid fa-circle-check text-green-400"></i>
                                 </div>
                             </div>
-                        @endfor
+                        @endforeach
                     </div>
 
                     <div class="flex w-3/4 flex-col overflow-y-auto">
                         <div class="item-center mb-5 flex w-full justify-center bg-black">
                             <video class="w-full" controls>
                                 <source
-                                    src="{{ route('content.show', ['type' => 'videos', 'fileName' => '64dafdee2e494.mp4']) }}"
+                                    src="{{ route('content.show', ['type' => 'videos', 'fileName' => $start_lesson->video]) }}"
                                     type="video/mp4">
                                 {{ __('Your browser does not support the video tag.') }}
                             </video>
@@ -84,18 +84,22 @@
 
                         <div class="px-12 py-6">
                             <div class="flex justify-between">
-                                <p class="text-2xl font-semibold">{{ __('Lesson Name') }}</p>
+                                <p class="text-2xl font-semibold">{{ $start_lesson->title }}</p>
                             </div>
 
                             <div class="mt-5 flex items-center space-x-4">
-                                <img class="h-8 w-8 rounded-full" src="{{ asset('images/avt.png') }}" alt="avatar">
+                                @if ($teacher->avatar !== null)
+                                    <img class="h-8 w-8 rounded-full" src="{{ $teacher->avatar }}" alt="avatar">
+                                @else
+                                    <img class="h-8 w-8 rounded-full" src="{{ asset('images/avt.png') }}" alt="avatar">
+                                @endif
                                 <div class="font-medium dark:text-white">
-                                    <div>{{ __('Admin User') }}</div>
+                                    <div>{{ $teacher->name }}</div>
                                 </div>
                             </div>
 
                             <p class="mt-5 text-lg">
-                                {{ __('Lesson description') }}
+                                {{ $start_lesson->description }}
                             </p>
 
                             <div class="mt-10 bg-white">

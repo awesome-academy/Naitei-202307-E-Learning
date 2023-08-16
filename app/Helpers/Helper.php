@@ -1,5 +1,7 @@
 <?php
 
+use App\Enrollment;
+
 function formatSeconds($seconds)
 {
     $minutes = floor($seconds / 60);
@@ -14,4 +16,11 @@ function isAuthor($userId)
         return auth()->user()->id === $userId;
     }
     return false;
+}
+
+function hasEnrolled($userId, $courseId)
+{
+    return Enrollment::where('user_id', $userId)
+        ->where('course_id', $courseId)
+        ->exists();
 }

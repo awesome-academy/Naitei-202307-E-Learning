@@ -107,8 +107,11 @@
     "Subscribe to get our Newsletter": "Đăng ký để nhận tin tức mới nhất",
     "Your mail": "Email của bạn",
     "Subscribe": "Đăng ký",
-    "What is E-Learning?" : "E-Learning là gì?",
+    "What is E-Learning?": "E-Learning là gì?",
     "active": "Hoạt động",
     "inactive": "Không hoạt động",
-    "pending": "Đang chờ"
+    "pending": "Đang chờ",
+    "You are not enrolled in this course": "Bạn chưa đăng ký khóa học này",
+    "Enroll in course failed!": "Đăng ký khóa học thất bại!",
+    "Enrolled in course successfully!": "Đăng ký khóa học thành công!"
 }
