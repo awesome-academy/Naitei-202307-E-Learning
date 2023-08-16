@@ -29,20 +29,23 @@
                                 <a href="{{ route('courses.index') }}">
                                     <p class="text-lg">{{ __('Course') }}</p>
                                 </a>
-                                <div class="search-input flex items-center">
-                                    <div class="relative">
-                                        <i
-                                            class="fa-xl fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 transform text-blue-400"></i>
-                                        <input type="text" id="name"
-                                            class="w-96 rounded-3xl border py-2 pl-10 focus:border-green-500 focus:outline-none"
-                                            placeholder="{{ __('Enter name of courses') }}" name="name"
-                                            value="{{ old('name') }}">
-                                        <button type="button"
-                                            class="absolute right-2 top-1/2 -translate-y-1/2 transform rounded-3xl bg-gradient-to-tr from-green-400 to-blue-400 px-5 py-1 text-center text-white hover:from-green-300 hover:to-blue-300">
-                                            {{ __('Find') }}
-                                        </button>
+                                <form action="{{ route('search') }}" method="POST">
+                                    @csrf
+                                    <div class="search-input flex items-center">
+                                        <div class="relative">
+                                            <i
+                                                class="fa-xl fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 transform text-blue-400"></i>
+                                            <input type="text" id="name"
+                                                class="w-96 rounded-3xl border py-2 pl-10 focus:border-green-500 focus:outline-none"
+                                                placeholder="{{ __('Enter name of courses') }}" name="name"
+                                                value="{{ old('name') }}">
+                                            <button type="submit"
+                                                class="absolute right-2 top-1/2 -translate-y-1/2 transform rounded-3xl bg-gradient-to-tr from-green-400 to-blue-400 px-5 py-1 text-center text-white hover:from-green-300 hover:to-blue-300">
+                                                {{ __('Find') }}
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
 
                                 <div class="localization">
                                     <select name="localization" id="lang" onchange="changeLocale(this.value)">

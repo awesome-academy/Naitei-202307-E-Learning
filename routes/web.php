@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\FindCourseController;
 use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -47,3 +48,5 @@ Route::middleware('check.enrolled')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('enroll', [EnrollmentController::class, 'enrollCourse'])->name('enroll');
 });
+
+Route::post('/search', [FindCourseController::class, 'findCourseByName'])->name('search');
