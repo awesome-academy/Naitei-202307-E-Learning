@@ -50,3 +50,11 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::post('/search', [FindCourseController::class, 'findCourseByName'])->name('search');
+
+Route::prefix('/admin')->middleware('check.admin')->group(function () {
+    Route::get('/', 'AdminController@index')->name('admin.index');
+    Route::get('/teachers', 'AdminController@showTeachers')->name('admin.teachers');
+    Route::get('/users', 'AdminController@showUsers')->name('admin.users');
+    Route::get('/categories', 'AdminController@showCategories')->name('admin.categories');
+    Route::put('/teachers/{teacher}', 'AdminController@updateTeacherStatus')->name('admin.teachers.update');
+});
