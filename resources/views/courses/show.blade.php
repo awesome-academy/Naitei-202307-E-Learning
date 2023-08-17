@@ -92,7 +92,7 @@
         </div>
         <div class="flex flex-1 flex-col p-10">
             <img class="h-2/3 w-full rounded-3xl object-cover"
-                src="{{ route('content.show', ['type' => 'images', 'fileName' => $course->image]) }}" alt="">
+                src="{{ getMediaUrl('images', $course->image) }}" alt="">
 
             @if (hasEnrolled(auth()->id(), $course->id))
                 <a href="{{ route('learning.show', ['lesson' => $course->lessons->first()->id]) }}"

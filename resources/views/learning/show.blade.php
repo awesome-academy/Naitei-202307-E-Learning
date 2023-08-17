@@ -76,7 +76,7 @@
                         <div class="item-center mb-5 flex w-full justify-center bg-black">
                             <video class="w-full" controls>
                                 <source
-                                    src="{{ route('content.show', ['type' => 'videos', 'fileName' => $start_lesson->video]) }}"
+                                    src="{{ getMediaUrl('videos', $start_lesson->video) }}"
                                     type="video/mp4">
                                 {{ __('Your browser does not support the video tag.') }}
                             </video>
