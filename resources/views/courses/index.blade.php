@@ -29,7 +29,7 @@
                             {{ $course->description }}
                         </p>
                         <div class="card-user">
-                            <img src="{{ asset('images/avt.png') }}"
+                            <img src="{{ $course->user->avatar }}"
                                 alt="" class="card-user-avatar" />
                             <div class="card-user-info">
                                 <div class="card-user-top">
