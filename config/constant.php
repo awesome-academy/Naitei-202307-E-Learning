@@ -16,4 +16,7 @@ return [
         'user' => 'user',
         'teacher' => 'teacher',
     ],
+    'progress' => [
+        'start_learning' => 0,
+    ]
 ];
