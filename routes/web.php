@@ -47,6 +47,8 @@ Route::middleware('check.enrolled')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/profile', 'ProfileController@show')->name('profile.show');
+    Route::put('/profile', 'ProfileController@update')->name('profile.update');
     Route::post('enroll', [EnrollmentController::class, 'enrollCourse'])->name('enroll');
 });
 

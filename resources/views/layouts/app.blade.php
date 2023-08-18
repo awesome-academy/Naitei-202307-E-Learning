@@ -62,13 +62,8 @@
                                     <div class="relative ml-16">
 
                                         <div class="flex cursor-pointer items-center text-center" id="drop-down-btn">
-                                            @if (Auth::user()->avatar === null)
-                                                <img class="mr-2 h-8 w-8 rounded-3xl" src="{{ asset('images/avt.png') }}"
+                                            <img class="mr-2 h-8 w-8 rounded-3xl" src="{{ Auth::user()->avatar }}"
                                                     alt="avatar">
-                                            @else
-                                                <img class="mr-2 h-8 w-8 rounded-3xl" src="{{ Auth::user()->avatar }}"
-                                                    alt="avatar">
-                                            @endif
                                             {{ Auth::user()->name }}
                                             <i class="fa-solid fa-caret-down ml-2 mt-1 justify-center text-center"></i>
                                         </div>
@@ -78,6 +73,12 @@
                                             <a href="/profile" class="block px-10 py-2 text-gray-800 hover:bg-gray-200">
                                                 {{ __('Profile') }}
                                             </a>
+                                            @if (Auth::user()->isAdmin())
+                                                <a href="{{ route('admin.index') }}"
+                                                    class="block px-10 py-2 text-gray-800 hover:bg-gray-200">
+                                                    {{ __('Admin') }}
+                                                </a>
+                                            @endif
                                             <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                                 class="d-none">
                                                 @csrf

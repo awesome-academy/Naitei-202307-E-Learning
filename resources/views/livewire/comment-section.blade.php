@@ -24,7 +24,7 @@
                 <footer class="mb-2 flex items-center justify-between">
                     <div class="flex items-center">
                         <p class="mr-3 inline-flex items-center text-sm text-gray-900 dark:text-white">
-                            <img class="mr-2 h-6 w-6 rounded-full" src="{{ asset('images/avt.png') }}"
+                            <img class="mr-2 h-6 w-6 rounded-full" src="{{ $comment->user->avatar }}"
                                 alt="avatar">{{ $comment->user->name }}
                         </p>
                         <p class="text-sm text-gray-600 dark:text-gray-400">

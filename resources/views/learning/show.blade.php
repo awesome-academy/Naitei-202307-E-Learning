@@ -93,12 +93,8 @@
                             </div>
 
                             <div class="mt-5 flex items-center space-x-4">
-                                @if ($teacher->avatar !== null)
-                                    <img class="h-8 w-8 rounded-full" src="{{ $teacher->avatar }}" alt="avatar">
-                                @else
-                                    <img class="h-8 w-8 rounded-full" src="{{ asset('images/avt.png') }}"
+                                <img class="h-8 w-8 rounded-full" src="{{ $teacher->avatar }}"
                                         alt="avatar">
-                                @endif
                                 <div class="font-medium dark:text-white">
                                     <div>{{ $teacher->name }}</div>
                                 </div>

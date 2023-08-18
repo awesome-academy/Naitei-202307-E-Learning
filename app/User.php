@@ -77,4 +77,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Progress::class);
     }
+    
+    public function isAdmin()
+    {
+        return $this->role === config('constant.role.admin');
+    }
+
+    public function getAvatarAttribute($value)
+    {
+        return $value ? getMediaUrl('images', $value) : asset('images/avt.png');
+    }
 }

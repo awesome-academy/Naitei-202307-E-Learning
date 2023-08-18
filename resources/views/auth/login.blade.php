@@ -38,7 +38,7 @@
                     </label>
                 </div>
 
-                <button type="submit" class="rounded-2xl text-xl  block w-full mt-8 mb-4 py-3 px-4 bg-gradient-to-r from-green-400 to-blue-400 hover:from-pink-500 hover:to-yellow-500 focus:ring-2 focus:ring-green-300 focus:ring-opacity-50 text-white font-medium">
+                <button type="submit" class="rounded-2xl text-xl  block w-full mt-8 mb-4 py-3 px-4 bg-gradient-to-r from-green-400 to-blue-400 hover:from-green-300 hover:to-blue-300 focus:ring-2 focus:ring-green-300 focus:ring-opacity-50 text-white font-medium">
                     {{ __('Login') }}
                 </button>
 

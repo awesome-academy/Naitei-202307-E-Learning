@@ -38,11 +38,7 @@
 
                 <div class="relative ml-16">
                     <div class="flex cursor-pointer items-center text-center" id="drop-down-btn">
-                        @if (Auth::user()->avatar === null)
-                            <img class="mr-2 h-8 w-8 rounded-3xl" src="{{ asset('images/avt.png') }}" alt="avatar">
-                        @else
-                            <img class="mr-2 h-8 w-8 rounded-3xl" src="{{ Auth::user()->avatar }}" alt="avatar">
-                        @endif
+                        <img class="mr-2 h-8 w-8 rounded-3xl" src="{{ Auth::user()->avatar }}" alt="avatar">
                         {{ Auth::user()->name }}
                         <i class="fa-solid fa-caret-down ml-2 mt-1 justify-center text-center"></i>
                     </div>

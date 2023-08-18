@@ -97,7 +97,7 @@
                     </span>
                     @enderror
 
-                    <button style="margin-left: 33.33%" class="w-1/3 text-center mt-10 py-3 px-4 bg-gradient-to-r from-green-400 to-blue-400 hover:from-pink-500 hover:to-yellow-500 text-white font-bold rounded-3xl">{{__('Register')}}</button>
+                    <button style="margin-left: 33.33%" class="w-1/3 text-center mt-10 py-3 px-4 bg-gradient-to-r from-green-400 to-blue-400 hover:from-green-300 hover:to-blue-300 text-white font-bold rounded-3xl">{{__('Register')}}</button>
                     <div class="text-center mt-3">
                         <span class="text-md-center">{{ __('Already have an account?') }}</span>
                         <a class="text-blue-500" href="/login">{{ __('Login') }}</a>
