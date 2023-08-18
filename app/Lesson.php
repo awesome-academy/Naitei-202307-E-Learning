@@ -25,4 +25,9 @@ class Lesson extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
+
+    public function progress()
+    {
+        return $this->hasMany(Progress::class);
+    }
 }

@@ -72,4 +72,9 @@ class User extends Authenticatable
     {
         return $this->status === config('constant.status.pending');
     }
+
+    public function progress()
+    {
+        return $this->hasMany(Progress::class);
+    }
 }

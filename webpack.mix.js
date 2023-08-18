@@ -14,6 +14,7 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js/app.js')
     .js('resources/js/main.js', 'public/js/main.js')
     .js('resources/js/localization.js', 'public/js/localization.js')
+    .js('resources/js/learning.js', 'public/js/learning.js')
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/font.scss', 'public/css')
     .sass('resources/sass/learning.scss', 'public/css')

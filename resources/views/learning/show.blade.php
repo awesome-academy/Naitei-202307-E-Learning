@@ -9,6 +9,7 @@
     <script src="{{ asset('js/main.js') }}" defer></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/localization.js') }}" defer></script>
+    <script src="{{ asset('js/learning.js') }}" defer></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/font.css') }}">
     <link href="{{ asset('css/library.css') }}" rel="stylesheet">
@@ -17,7 +18,7 @@
 </head>
 
 <body>
-    <div id="app">
+    <div id="app" data-csrf-token="{{ csrf_token() }}" start-lesson="{{ $start_lesson->id }}">
         <div class="flex h-screen flex-col overflow-hidden">
             @if (Route::has('login'))
                 <div class="top-right links w-full">
@@ -30,7 +31,7 @@
                             </a>
 
                             <div class="flex items-center gap-2">
-                                <div x-data="{ percent: {{ 50 }}, circumference: 2 * Math.PI * 20 }"
+                                <div x-data="{ percent: {{ $total['percent'] }}, circumference: 2 * Math.PI * 20 }"
                                     class="inline-flex items-center justify-center overflow-hidden rounded-full">
                                     <svg class="h-10 w-10">
                                         <circle class="text-gray-300" stroke-width="3" stroke="currentColor"
@@ -41,11 +42,12 @@
                                             stroke-linecap="round" stroke="currentColor" fill="transparent"
                                             r="18" cx="20" cy="20" />
                                     </svg>
-                                    <span class="absolute text-sm text-green-500" x-text=`{{ __('50') }}%`></span>
+                                    <span class="absolute text-sm text-green-500"
+                                        x-text=`{{ $total['percent'] }}%`></span>
                                 </div>
 
                                 <div class="text-white">
-                                    <span>{{ __('2/12') }}</span>
+                                    <span>{{ $total['rate'] }}</span>
                                 </div>
                             </div>
                         </nav>
@@ -67,9 +69,11 @@
                                             {{ formatSeconds($lesson->duration) }}
                                         </p>
                                     </div>
-                                    <div>
-                                        <i class="fa-solid fa-circle-check text-green-400"></i>
-                                    </div>
+                                    @if (isCompleted($lesson, Auth::user()->id))
+                                        <div>
+                                            <i class="fa-solid fa-circle-check text-green-400"></i>
+                                        </div>
+                                    @endif
                                 </div>
                             </a>
                         @endforeach
@@ -77,7 +81,7 @@
 
                     <div class="flex w-3/4 flex-col overflow-y-auto">
                         <div class="item-center mb-5 flex w-full justify-center bg-black">
-                            <video class="w-full" controls>
+                            <video id="lessonVideo" class="w-full" controls data-lesson-id="{{ $start_lesson->id }}">
                                 <source src="{{ getMediaUrl('videos', $start_lesson->video) }}" type="video/mp4">
                                 {{ __('Your browser does not support the video tag.') }}
                             </video>
@@ -107,6 +111,68 @@
                             @livewire('comment-section', ['lesson' => $start_lesson], key($start_lesson->id))
 
                             @livewireScripts
+                                <form class="mb-6">
+                                    <div class="mb-4 rounded-lg rounded-t-lg border border-gray-200 bg-white px-4 py-2">
+                                        <textarea id="comment" rows="4"
+                                            class="w-full border-0 px-0 text-sm text-gray-900 focus:outline-none focus:ring-0 dark:bg-gray-800"
+                                            placeholder="{{ __('Write a comment...') }}"></textarea>
+                                    </div>
+                                    <button
+                                        class="rounded-2xl bg-gradient-to-r from-green-400 to-blue-400 px-3 py-2 text-center font-bold text-white hover:from-green-300 hover:to-blue-300">
+                                        {{ __('Post Comment') }}
+                                    </button>
+                                </form>
+
+                                <article class="mb-6 rounded-lg bg-white text-base dark:bg-gray-900">
+                                    <footer class="mb-2 flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <p
+                                                class="mr-3 inline-flex items-center text-sm text-gray-900 dark:text-white">
+                                                <img class="mr-2 h-6 w-6 rounded-full"
+                                                    src="{{ asset('images/avt.png') }}"
+                                                    alt="avatar">{{ __('Michael Gough') }}
+                                            </p>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate
+                                                    datetime="2022-02-08"
+                                                    title="February 8th, 2022">{{ __('Feb. 8, 2022') }}</time></p>
+                                        </div>
+                                        <button id="dropdownComment1Button" data-dropdown-toggle="dropdownComment1"
+                                            class="inline-flex items-center rounded-lg bg-white p-2 text-center text-sm font-medium text-gray-400 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                            type="button">
+                                            <svg class="h-5 w-5" aria-hidden="true" fill="currentColor"
+                                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z">
+                                                </path>
+                                            </svg>
+                                        </button>
+
+                                        <div id="dropdownComment1"
+                                            class="z-10 hidden w-36 divide-y divide-gray-100 rounded bg-white shadow dark:divide-gray-600 dark:bg-gray-700">
+                                            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
+                                                aria-labelledby="dropdownMenuIconHorizontalButton">
+                                                <li>
+                                                    <a href="#"
+                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ __('Edit') }}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ __('Remove') }}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ __('Report') }}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </footer>
+                                    <p class="text-gray-500 dark:text-gray-400">
+                                        {{ __('Very straight-to-point article. Really worth time reading. Thank you! But tools are just the
+                                            instruments for the UX designers. The knowledge of the design tools are as important as the
+                                            creation of the design strategy.') }}
+                                    </p>
+                                </article>
+                            </div>
                         </div>
                     </div>
                 </div>

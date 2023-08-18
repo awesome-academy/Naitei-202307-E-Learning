@@ -1,6 +1,7 @@
 <?php
 
 use App\Enrollment;
+use App\Progress;
 
 function formatSeconds($seconds)
 {
@@ -32,4 +33,12 @@ function getMediaUrl($type, $fileName)
     $url = $cloudFrontUrl . '/' . $filePath . $fileName;
 
     return $url;
+}
+
+function isCompleted($lesson, $userId)
+{
+    return Progress::where('lesson_id', $lesson->id)
+        ->where('user_id', $userId)
+        ->where('completed', true)
+        ->exists();
 }
