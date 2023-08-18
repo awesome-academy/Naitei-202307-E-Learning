@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="mx-14 mt-10 flex justify-between">
-        <h2 class="mb-2 text-2xl font-bold">{{ $courses->count() . ' Results' }}</h2>
+        <h2 class="mb-2 text-2xl font-bold">{{ $courses->count() . __(' Results') }}</h2>
         @auth
             @if (auth()->user()->isTeacher())
                 <a href="{{ route('courses.create') }}"
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div class="card-bottom">
-                        <div class="card-watching">{{ $course->enrolled_count . ' Enrolled' }}</div>
+                        <div class="card-watching">{{ $course->enrolled_count . __(' Enrolled') }}</div>
                     </div>
                 </div>
             </div>

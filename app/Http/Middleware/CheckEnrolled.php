@@ -19,7 +19,8 @@ class CheckEnrolled
     {
         $user = Auth::user();
         $lesson_id = $request->route('lesson');
-        $course_id = Lesson::find($lesson_id)->course->id;
+        $lesson = Lesson::where('id', $lesson_id)->first();
+        $course_id = $lesson->course_id;
 
         if (hasEnrolled($user->id, $course_id)) {
             return $next($request);

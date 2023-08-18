@@ -6,8 +6,11 @@ use App\Course;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
+use App\Lesson;
+use App\Progress;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
@@ -79,7 +82,9 @@ class CourseController extends Controller
             }
         ])->findOrFail($id);
 
-        return view('courses.show', compact('course'));
+        $continue_lesson = $this->continueLearning($id);
+
+        return view('courses.show', compact('course', 'continue_lesson'));
     }
 
     /**
@@ -144,5 +149,34 @@ class CourseController extends Controller
 
         return redirect()->route('courses.index')
             ->with('success', __('Course deleted successfully'));
+    }
+
+    public function continueLearning($id)
+    {
+        $user = Auth::user();
+
+        $courseId = $id;
+        $lesson = Lesson::where('course_id', $courseId)->first();
+
+        if (!$lesson || !$user) {
+            return null;
+        }
+
+        $progress = Progress::where('user_id', $user->id)
+            ->where('completed', false)
+            ->join('lessons', 'progress.lesson_id', '=', 'lessons.id')
+            ->where('lessons.course_id', $courseId)
+            ->select('progress.lesson_id', 'progress.progress')
+            ->first();
+
+        if ($progress) {
+            $currentLessonId = $progress->lesson_id;
+
+            return $currentLessonId;
+        } else {
+            $currentLessonId = Course::find($courseId)->lessons->first()->id;
+
+            return $currentLessonId;
+        }
     }
 }

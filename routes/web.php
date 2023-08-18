@@ -40,7 +40,10 @@ Route::resource('/courses', 'CourseController')->only('index');
 
 Route::get('/courses/{course}', 'CourseController@show')->name('courses.show');
 
-Route::middleware('check.enrolled')->group(function () {
+Route::middleware([
+    'auth',
+    'check.enrolled',
+])->group(function () {
     Route::get('/learning/{lesson}', 'LearningController@show')->name('learning.show');
     Route::post('/save-progress/{lesson}', [LearningController::class, 'saveProgress'])->name('update.completed');
     Route::post('/update-progress/{lesson}', 'LearningController@updateProgress')->name('update.progress');

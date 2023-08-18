@@ -47,7 +47,7 @@
                     @endif
                 </div>
 
-                <p>{{ $course->lessons->count() . ' lessons' }}</p>
+                <p>{{ $course->lessons->count() . __(' lessons') }}</p>
                 <div class="mt-10 w-full h-60 overflow-y-auto">
                     <ul>
                         @foreach ($course->lessons as $index => $lesson)
@@ -94,8 +94,8 @@
             <img class="h-2/3 w-full rounded-3xl object-cover"
                 src="{{ getMediaUrl('images', $course->image) }}" alt="">
 
-            @if (hasEnrolled(auth()->id(), $course->id))
-                <a href="{{ route('learning.show', ['lesson' => $course->lessons->first()->id]) }}"
+            @if (hasEnrolled(auth()->id(), $course->id) && $continue_lesson)
+                <a href="{{ route('learning.show', ['lesson' => $continue_lesson]) }}"
                     class="text-center mx-auto mt-5 w-6/12 rounded-2xl bg-gradient-to-r from-green-400 to-blue-400 px-4 py-2 font-bold text-white hover:from-green-300 hover:to-blue-300">
                     {{ __('Continue') }}
                 </a>
@@ -108,7 +108,6 @@
                         </button>
                 </form>
             @endif
-
         </div>
     </div>
 @endsection

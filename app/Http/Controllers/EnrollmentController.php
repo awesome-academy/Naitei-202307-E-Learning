@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Course;
 use App\Enrollment;
+use App\Lesson;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,11 @@ class EnrollmentController extends Controller
     public function enrollCourse(Request $request)
     {
         $courseId = $request->course_id;
+        $lesson = Lesson::where('course_id', $courseId)->first();
+        
+        if (!$lesson) {
+            return redirect()->back()->with('error', __('Enroll in course failed! No lesson found'));
+        }
 
         DB::beginTransaction();
 
