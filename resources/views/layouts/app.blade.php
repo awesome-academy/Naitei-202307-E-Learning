@@ -29,7 +29,7 @@
                                 <a href="{{ route('courses.index') }}">
                                     <p class="text-lg">{{ __('Course') }}</p>
                                 </a>
-                                <form action="{{ route('search') }}" method="POST">
+                                <form action="{{ route('search') }}" method="POST" class="m-0">
                                     @csrf
                                     <div class="search-input flex items-center">
                                         <div class="relative">
@@ -48,7 +48,8 @@
                                 </form>
 
                                 <div class="localization">
-                                    <select name="localization" id="lang" onchange="changeLocale(this.value)">
+                                    <select name="localization" id="lang" onchange="changeLocale(this.value)"
+                                            class="border bg-white rounded-md p-2 focus:outline-none focus:ring focus:border-green-300">
                                         <option value="vi" {{ App::getLocale() === 'vi' ? 'selected' : '' }}>
                                             {{ __('VI') }}
                                         </option>

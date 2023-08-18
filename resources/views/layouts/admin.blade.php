@@ -26,7 +26,8 @@
 
             <div class="flex">
                 <div class="localization">
-                    <select name="localization" id="lang" onchange="changeLocale(this.value)">
+                    <select name="localization" id="lang" onchange="changeLocale(this.value)"
+                            class="border bg-white rounded-md p-2 focus:outline-none focus:ring focus:border-green-300">
                         <option value="vi" {{ App::getLocale() === 'vi' ? 'selected' : '' }}>
                             {{ __('VI') }}
                         </option>

@@ -87,4 +87,9 @@ class User extends Authenticatable
     {
         return $value ? getMediaUrl('images', $value) : asset('images/avt.png');
     }
+
+    public function getOriginalAvatarAttribute()
+    {
+        return $this->attributes['avatar'];
+    }
 }
