@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserRequest;
+use App\User;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -25,7 +26,7 @@ class ProfileController extends Controller
             $uploadResult = S3UploadController::uploadFileToS3($file, 'avatar');
             $filePath = $uploadResult['filename'];
         } else {
-            $filePath = $user->getOriginal('avatar');
+            $filePath = $user->original_avatar;
         }
 
         $user->update([
