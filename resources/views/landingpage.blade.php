@@ -128,9 +128,9 @@
                     <h1 class="my-10 text-center text-4xl font-semibold text-blue-900">{{ __('What is E-Learning?') }}</h1>
                     <p class="text-2xl font-medium text-gray-600">
                         {{ env('APP_NAME') }}
-                        {{ __(' is a platform that allows educators to create online classes
-                                whereby they can store the course materials online; manage assignments, quizzes and exams;
-                                monitor due dates; grade results and provide students with feedback all in one place.') }}
+                        {{ __(' is a platform that allows educators to create online classes')
+                                . __('whereby they can store the course materials online; manage assignments, quizzes and exams;')
+                                . __('monitor due dates; grade results and provide students with feedback all in one place.') }}
                     </p>
                 </div>
                 <div class="mx-10 mt-5 flex h-auto items-center py-36 text-center">
