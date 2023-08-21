@@ -93,8 +93,7 @@
                             </div>
 
                             <div class="mt-5 flex items-center space-x-4">
-                                <img class="h-8 w-8 rounded-full" src="{{ $teacher->avatar }}"
-                                        alt="avatar">
+                                <img class="h-8 w-8 rounded-full" src="{{ $teacher->avatar }}" alt="avatar">
                                 <div class="font-medium dark:text-white">
                                     <div>{{ $teacher->name }}</div>
                                 </div>
@@ -127,7 +126,18 @@
                     });
                 </script>
             @endif
+
+            @if (session()->has('warning_messages'))
+                @foreach (session('warning_messages') as $message)
+                    <script>
+                        window.addEventListener('load', function() {
+                            toastr.warning('{{ $message }}');
+                        });
+                    </script>
+                @endforeach
+            @endif
         </div>
+    </div>
 </body>
 
 </html>

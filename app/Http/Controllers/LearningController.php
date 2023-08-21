@@ -6,9 +6,11 @@ use App\Course;
 use App\Lesson;
 use App\Progress;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class LearningController extends Controller
 {
@@ -75,6 +77,7 @@ class LearningController extends Controller
         }
 
         $total = $this->statisticLearing($course->id);
+        $this->checkHasUpdated($course->id);
 
         return view('learning.show', compact('course', 'start_lesson', 'teacher', 'total', 'progress'));
     }
@@ -159,10 +162,34 @@ class LearningController extends Controller
             $progress->save();
         }
 
+        $mytime = Carbon::now();
+        $progress->updated_at = $mytime->toDateTimeString();
+        $progress->save();
+
         return response()->json([
             'success' => true,
             'message' => __('Progress updated'),
             'progress' => $progress
         ]);
+    }
+
+    public function checkHasUpdated($id)
+    {
+        $user_id = Auth::id();
+
+        $lessons = Lesson::select('title')
+            ->whereHas('progress', function ($query) use ($user_id) {
+                $query->where('user_id', $user_id)
+                    ->whereRaw('progress.updated_at < lessons.updated_at');
+            })
+            ->where('course_id', $id)
+            ->get();
+        $warning_messages = [];
+
+        foreach ($lessons as $lesson) {
+            $warning_messages[] = __('Lesson :title has been updated', ['title' => $lesson->title ?? '']);
+        }
+
+        Session::flash('warning_messages', $warning_messages);
     }
 }
