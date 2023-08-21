@@ -83,7 +83,10 @@ class CourseController extends Controller
         ])->findOrFail($id);
 
         $continue_lesson = $this->continueLearning($id);
-
+        if (!$continue_lesson) {
+            $continue_lesson = Lesson::where('course_id', $id)->first();
+        }
+        
         return view('courses.show', compact('course', 'continue_lesson'));
     }
 
