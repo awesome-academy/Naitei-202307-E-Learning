@@ -16,7 +16,7 @@ class EnrollmentController extends Controller
     {
         $courseId = $request->course_id;
         $lesson = Lesson::where('course_id', $courseId)->first();
-        
+
         if (!$lesson) {
             return redirect()->back()->with('error', __('Enroll in course failed! No lesson found'));
         }
@@ -40,7 +40,8 @@ class EnrollmentController extends Controller
 
             DB::commit();
 
-            return view('courses.show', compact('course'))->with('success', __('Enrolled in course successfully!'));
+            return redirect()->route('courses.show', ['course' => $courseId])
+                ->with('success', __('Enrolled in course successfully!'));
         } catch (Exception $e) {
             DB::rollback();
 
